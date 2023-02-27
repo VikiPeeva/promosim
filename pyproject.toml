@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+[project]
+name = "promosim_vipe"
+version = "0.0.1"
+authors = [
+  { name="Viki Peeva", email="peeva.viki@gmail.com" },
+]
+description = "A package that contains different similarity metrics for process models"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/VikiPeeva/promosim"
+"Bug Tracker" = "https://github.com/VikiPeeva/promosim/issues"
