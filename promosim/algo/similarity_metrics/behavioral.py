@@ -4,7 +4,7 @@ import pm4py
 from copy import deepcopy
 import uuid
 from promosim.algo.utils import extract_traces_as_strings, build_cost_matrix
-from matching import trace_matching_cost
+from promosim.algo.similarity_metrics.matching import trace_matching_cost
 from scipy.optimize import linear_sum_assignment
 
 
