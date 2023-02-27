@@ -1,0 +1,4 @@
+/dist/
+/promosim.egg-info/
+/.idea/
+/.pytest_cache/
