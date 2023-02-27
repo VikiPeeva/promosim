@@ -3,6 +3,9 @@ from pm4py.objects.petri_net.utils import petri_utils
 import pm4py
 from copy import deepcopy
 import uuid
+from promosim.algo.utils import extract_traces_as_strings, build_cost_matrix
+from matching import trace_matching_cost
+from scipy.optimize import linear_sum_assignment
 
 
 def partial_order(net1: PetriNet, net2: PetriNet):
@@ -25,22 +28,27 @@ def partial_order(net1: PetriNet, net2: PetriNet):
 
 def limit_lpm(net0, im0, fm0):
     [net, im, fm] = deepcopy([net0, im0, fm0])
-    initial_places = set(net.places)
-
-    for trans in net.transitions:
-        if trans.label is not None:
-            # limits the execution to 1
-            new_place = PetriNet.Place(str(uuid.uuid4()))
-            net.places.add(new_place)
-            petri_utils.add_arc_from_to(new_place, trans, net)
-            im[new_place] = 1
+    initial_tr = net.transitions - set([arc.target for arc in net.arcs if isinstance(arc.target, PetriNet.Transition)])
+    initial_places = set([arc.target for arc in net.arcs if arc.source in initial_tr])
 
     for place in initial_places:
         inverse_place = PetriNet.Place(str(uuid.uuid4()))
         im[inverse_place] = 1
         net.places.add(inverse_place)
-        in_arcs = [arc for arc in net.arcs if arc.target == place]
+        in_arcs = [arc for arc in net.arcs if arc.target == place]  # and arc.source in initial_tr]
         for arc in in_arcs:
             petri_utils.add_arc_from_to(inverse_place, arc.source, net)
 
     return net, im, fm
+
+
+def optimal_trace_matching(traces1, traces2):
+    cost_matrix = build_cost_matrix(traces1, traces2, trace_matching_cost)
+    return cost_matrix, linear_sum_assignment(cost_matrix, maximize=True)
+
+
+def full_lang_distance(net1: PetriNet, im1: Marking, fm1: Marking, net2: PetriNet, im2: Marking, fm2: Marking):
+    traces1 = extract_traces_as_strings(net1, im1, fm1)
+    traces2 = extract_traces_as_strings(net2, im2, fm2)
+    cost_matrix, assignment = optimal_trace_matching(traces1, traces2)
+    return 2 * cost_matrix[assignment].sum() / (len(traces1) + len(traces2))

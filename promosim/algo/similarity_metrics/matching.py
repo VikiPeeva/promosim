@@ -1,7 +1,9 @@
-import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 from pm4py.objects.petri_net.obj import PetriNet
+
+from Levenshtein import distance
+from promosim.algo.utils import build_cost_matrix
 
 
 def transition_label_matching(net1: PetriNet, net2: PetriNet):
@@ -32,11 +34,9 @@ def place_matching_cost(place1: PetriNet.Place, place2: PetriNet.Place):
 
 
 def find_optimal_place_matching(net1: PetriNet, net2: PetriNet):
-    count_places_net1 = len(net1.places)
-    count_places_net2 = len(net2.places)
-    cost_matrix = np.zeros((count_places_net1, count_places_net2))
-    for i, place1 in zip(range(count_places_net1), net1.places):
-        for j, place2 in zip(range(count_places_net2), net2.places):
-            cost_matrix[i][j] = place_matching_cost(place1, place2)
-
+    cost_matrix = build_cost_matrix(net1.places, net2.places, place_matching_cost)
     return cost_matrix, linear_sum_assignment(cost_matrix, maximize=True)
+
+
+def trace_matching_cost(trace1: str, trace2: str):
+    distance(trace1, trace2)
