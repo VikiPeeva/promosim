@@ -5,7 +5,7 @@ from copy import deepcopy
 import uuid
 from promosim.algo.utils import extract_traces_as_strings, build_cost_matrix
 from promosim.algo.similarity_metrics.matching import trace_matching_cost
-from scipy.optimize import linear_sum_assignment
+# from scipy.optimize import linear_sum_assignment
 
 
 def partial_order(net1: PetriNet, net2: PetriNet):
@@ -42,13 +42,13 @@ def limit_lpm(net0, im0, fm0):
     return net, im, fm
 
 
-def optimal_trace_matching(traces1, traces2):
-    cost_matrix = build_cost_matrix(traces1, traces2, trace_matching_cost)
-    return cost_matrix, linear_sum_assignment(cost_matrix, maximize=True)
+# def optimal_trace_matching(traces1, traces2):
+#     cost_matrix = build_cost_matrix(traces1, traces2, trace_matching_cost)
+#     return cost_matrix, linear_sum_assignment(cost_matrix, maximize=True)
 
 
-def full_lang_distance(net1: PetriNet, im1: Marking, fm1: Marking, net2: PetriNet, im2: Marking, fm2: Marking):
-    traces1 = extract_traces_as_strings(net1, im1, fm1)
-    traces2 = extract_traces_as_strings(net2, im2, fm2)
-    cost_matrix, assignment = optimal_trace_matching(traces1, traces2)
-    return 2 * cost_matrix[assignment].sum() / (len(traces1) + len(traces2))
+# def full_lang_distance(net1: PetriNet, im1: Marking, fm1: Marking, net2: PetriNet, im2: Marking, fm2: Marking):
+#     traces1 = extract_traces_as_strings(net1, im1, fm1)
+#     traces2 = extract_traces_as_strings(net2, im2, fm2)
+#     cost_matrix, assignment = optimal_trace_matching(traces1, traces2)
+#     return 2 * cost_matrix[assignment].sum() / (len(traces1) + len(traces2))
