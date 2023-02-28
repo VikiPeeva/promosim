@@ -3,7 +3,7 @@ from scipy.optimize import linear_sum_assignment
 from pm4py.objects.petri_net.obj import PetriNet
 
 from Levenshtein import distance
-from promosim.util.utils import build_cost_matrix
+from promosim.utils.utils import build_cost_matrix
 
 
 def place_matching_cost(place1: PetriNet.Place, place2: PetriNet.Place):

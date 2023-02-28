@@ -1,6 +1,6 @@
 from pm4py.objects.petri_net.obj import PetriNet
 
-from promosim.util.matching import calculate_optimal_place_matching
+from promosim.utils.matching import calculate_optimal_place_matching
 
 
 def transition_label_similarity(net1: PetriNet, net2: PetriNet):

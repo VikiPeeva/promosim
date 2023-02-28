@@ -1,9 +1,9 @@
 import pm4py
 from pm4py.objects.petri_net.obj import PetriNet, Marking
 
-from promosim.util.lpms import limit_lpm
-from promosim.util.utils import extract_traces_as_strings
-from promosim.util.matching import calculate_optimal_trace_matching
+from promosim.utils.lpms import limit_lpm
+from promosim.utils.utils import extract_traces_as_strings
+from promosim.utils.matching import calculate_optimal_trace_matching
 
 
 def partial_order(net1: PetriNet, net2: PetriNet):
