@@ -2,6 +2,7 @@ from copy import deepcopy
 import uuid
 
 from pm4py.objects.petri_net.utils import petri_utils
+from pm4py.objects.petri_net.obj import PetriNet
 
 
 def limit_lpm(net0, im0, fm0):
