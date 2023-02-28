@@ -17,7 +17,7 @@ def place_matching_cost(place1: PetriNet.Place, place2: PetriNet.Place):
 
 
 def trace_matching_cost(trace1: str, trace2: str):
-    return distance(trace1, trace2)
+    return 1 - distance(trace1, trace2) / max(len(trace1), len(trace2))
 
 
 def calculate_optimal_place_matching(net1: PetriNet, net2: PetriNet):
