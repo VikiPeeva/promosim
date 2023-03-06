@@ -4,7 +4,9 @@ import pm4py
 
 def extract_traces_as_strings(net, im, fm):
     play_out_log = pm4py.play_out(net, im, fm,
-                                  parameters={"add_only_if_fm_is_reached": True, "fm_leq_accepted": False})
+                                  parameters={"add_only_if_fm_is_reached": True,
+                                              "fm_leq_accepted": False,
+                                              "maxTraceLength": 10})
     traces = set([''.join(t) for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
     return traces
 
