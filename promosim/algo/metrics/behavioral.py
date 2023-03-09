@@ -2,7 +2,7 @@ import pm4py
 from pm4py.objects.petri_net.obj import PetriNet, Marking
 
 from promosim.utils.lpms import limit_lpm
-from promosim.utils.utils import extract_traces_as_strings
+from promosim.utils.utils import playout_traces_as_strings
 from promosim.utils.matching import calculate_optimal_trace_matching
 
 
@@ -25,7 +25,7 @@ def partial_order(net1: PetriNet, net2: PetriNet):
 
 
 def full_lang_distance(net1: PetriNet, im1: Marking, fm1: Marking, net2: PetriNet, im2: Marking, fm2: Marking):
-    traces1 = extract_traces_as_strings(net1, im1, fm1)
-    traces2 = extract_traces_as_strings(net2, im2, fm2)
+    traces1 = playout_traces_as_strings(net1, im1, fm1)
+    traces2 = playout_traces_as_strings(net2, im2, fm2)
     cost_matrix, assignment = calculate_optimal_trace_matching(traces1, traces2)
     return 2 * cost_matrix[assignment].sum() / (len(traces1) + len(traces2))
