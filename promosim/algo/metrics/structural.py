@@ -28,7 +28,9 @@ def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
     dists = {}
     for n1 in g1.nodes:
         for n2 in g2.nodes:
-            dists[n1][n2] = node_subst_cost(n1, n2)
+            node1 = g1.nodes[n1]
+            node2 = g2.nodes[n2]
+            dists[node1][node2] = node_subst_cost(node1, node2)
     return dists
 
 
@@ -36,7 +38,9 @@ def calculate_edge_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
     dists = {}
     for e1 in g1.edges:
         for e2 in g2.edges:
-            dists[e1][e2] = edge_subst_cost(e1, e2)
+            edge1 = g1.edges[e1]
+            edge2 = g2.edges[e2]
+            dists[edge1][edge2] = edge_subst_cost(edge1, edge2)
     return dists
 
 
