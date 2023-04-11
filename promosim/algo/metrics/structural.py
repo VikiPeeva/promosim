@@ -27,6 +27,7 @@ def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, incl
 def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
     dists = {}
     for n1 in g1.nodes:
+        dists[n1] = {}
         for n2 in g2.nodes:
             node1 = g1.nodes[n1]
             node2 = g2.nodes[n2]
@@ -37,6 +38,7 @@ def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
 def calculate_edge_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
     dists = {}
     for e1 in g1.edges:
+        dists[e1] = {}
         for e2 in g2.edges:
             edge1 = g1.edges[e1]
             edge2 = g2.edges[e2]
