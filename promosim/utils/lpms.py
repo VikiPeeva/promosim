@@ -25,15 +25,16 @@ def limit_lpm(net0, im0, fm0):
 
 def get_graph_from_petri_net(net):
     g = nx.DiGraph()
-    g.add_nodes_from([(t.label, {"type": "transition", "label": t.label}) for t in net.transitions])
-    g.add_nodes_from([(p.name, {"in_tr": set([x.source.label for x in p.in_arcs]),
+    g.add_nodes_from([(t.name, {"id": t.name, "type": "transition", "label": t.label})
+                      for t in net.transitions])
+    g.add_nodes_from([(p.name, {"id": p.name, "in_tr": set([x.source.label for x in p.in_arcs]),
                                 "out_tr": set([x.target.label for x in p.out_arcs]),
                                 "place": p,
                                 "type": "place"})
                       for p in net.places])
     for arc in net.arcs:
         if isinstance(arc.source, PetriNet.Place):
-            g.add_edge(arc.source.name, arc.target.label, etype="pt", place=arc.source, transition=arc.target.label)
+            g.add_edge(arc.source.name, arc.target.name, etype="pt", place=arc.source, transition=arc.target.label)
         else:
-            g.add_edge(arc.source.label, arc.target.name, etype="tp", transition=arc.source.label, place=arc.target)
+            g.add_edge(arc.source.name, arc.target.name, etype="tp", transition=arc.source.label, place=arc.target)
     return g

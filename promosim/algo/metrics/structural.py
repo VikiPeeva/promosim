@@ -17,7 +17,7 @@ def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, incl
     edge_subst_cost_matrix = calculate_edge_subst_cost(g1, g2)
     if include_nodes and include_edges:
         return nx.graph_edit_distance(g1, g2,
-                                      node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2],
+                                      node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1["id"]][n2["id"]],
                                       edge_subst_cost=lambda e1, e2: edge_subst_cost_matrix[e1][e2])
     elif include_nodes:
         return nx.graph_edit_distance(g1, g2, node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2])
@@ -30,7 +30,7 @@ def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
         for n2 in g2.nodes:
             node1 = g1.nodes[n1]
             node2 = g2.nodes[n2]
-            dists[node1][node2] = node_subst_cost(node1, node2)
+            dists[n1][n2] = node_subst_cost(node1, node2)
     return dists
 
 
@@ -40,7 +40,7 @@ def calculate_edge_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
         for e2 in g2.edges:
             edge1 = g1.edges[e1]
             edge2 = g2.edges[e2]
-            dists[edge1][edge2] = edge_subst_cost(edge1, edge2)
+            dists[e1][e2] = edge_subst_cost(edge1, edge2)
     return dists
 
 
