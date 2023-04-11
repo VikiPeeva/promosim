@@ -13,11 +13,31 @@ def ged_distance(net1: PetriNet, net2: PetriNet, include_nodes=True, include_edg
 
 
 def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, include_edges=True):
+    node_subst_cost_matrix = calculate_node_subst_cost(g1, g2)
+    edge_subst_cost_matrix = calculate_edge_subst_cost(g1, g2)
     if include_nodes and include_edges:
-        return nx.graph_edit_distance(g1, g2, node_subst_cost=node_subst_cost, edge_subst_cost=edge_subst_cost)
+        return nx.graph_edit_distance(g1, g2,
+                                      node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2],
+                                      edge_subst_cost=lambda e1, e2: edge_subst_cost_matrix[e1][e2])
     elif include_nodes:
-        return nx.graph_edit_distance(g1, g2, node_subst_cost=node_subst_cost)
+        return nx.graph_edit_distance(g1, g2, node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2])
     return nx.graph_edit_distance(g1, g2)
+
+
+def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
+    dists = {}
+    for n1 in g1.nodes:
+        for n2 in g2.nodes:
+            dists[n1][n2] = node_subst_cost(n1, n2)
+    return dists
+
+
+def calculate_edge_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph):
+    dists = {}
+    for e1 in g1.edges:
+        for e2 in g2.edges:
+            dists[e1][e2] = edge_subst_cost(e1, e2)
+    return dists
 
 
 def node_subst_cost(n1, n2):
