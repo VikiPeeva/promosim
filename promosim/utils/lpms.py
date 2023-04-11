@@ -34,7 +34,9 @@ def get_graph_from_petri_net(net):
                       for p in net.places])
     for arc in net.arcs:
         if isinstance(arc.source, PetriNet.Place):
-            g.add_edge(arc.source.name, arc.target.name, etype="pt", place=arc.source, transition=arc.target.label)
+            g.add_edge(arc.source.name, arc.target.name, id=(arc.source.name, arc.target.name), etype="pt",
+                       place=arc.source, transition=arc.target.label)
         else:
-            g.add_edge(arc.source.name, arc.target.name, etype="tp", transition=arc.source.label, place=arc.target)
+            g.add_edge(arc.source.name, arc.target.name, id=(arc.source.name, arc.target.name), etype="tp",
+                       transition=arc.source.label, place=arc.target)
     return g

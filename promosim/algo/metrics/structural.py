@@ -18,7 +18,7 @@ def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, incl
     if include_nodes and include_edges:
         return nx.graph_edit_distance(g1, g2,
                                       node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1["id"]][n2["id"]],
-                                      edge_subst_cost=lambda e1, e2: edge_subst_cost_matrix[e1][e2])
+                                      edge_subst_cost=lambda e1, e2: edge_subst_cost_matrix[e1["id"]][e2["id"]])
     elif include_nodes:
         return nx.graph_edit_distance(g1, g2, node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2])
     return nx.graph_edit_distance(g1, g2)
