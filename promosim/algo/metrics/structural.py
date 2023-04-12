@@ -13,7 +13,7 @@ def ged_distance(net1: PetriNet, net2: PetriNet, include_nodes=True, include_edg
 
 
 def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, include_edges=True,
-                        pmc=place_matching_cost):
+                        pmc=place_matching_cost, timeout=None):
     node_subst_cost_matrix = calculate_node_subst_cost(g1, g2, pmc)
     edge_subst_cost_matrix = calculate_edge_subst_cost(g1, g2, pmc)
     if include_nodes and include_edges:
@@ -22,7 +22,7 @@ def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, incl
                                       edge_subst_cost=lambda e1, e2: edge_subst_cost_matrix[e1["id"]][e2["id"]])
     elif include_nodes:
         return nx.graph_edit_distance(g1, g2, node_subst_cost=lambda n1, n2: node_subst_cost_matrix[n1][n2])
-    return nx.graph_edit_distance(g1, g2)
+    return nx.graph_edit_distance(g1, g2, timeout=timeout)
 
 
 def calculate_node_subst_cost(g1: nx.DiGraph, g2: nx.DiGraph, pmc=place_matching_cost):
