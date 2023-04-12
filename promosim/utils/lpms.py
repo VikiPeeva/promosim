@@ -23,6 +23,15 @@ def limit_lpm(net0, im0, fm0):
     return net, im, fm
 
 
+def get_petri_net_place_short_string(place: PetriNet.Place):
+    in_tr = [arc.source.label for arc in place.in_arcs]
+    in_tr.sort()
+    out_tr = [arc.target.label for arc in place.out_arcs]
+    out_tr.sort()
+
+    return "({in_trl} | {out_trl})".format(in_trl=" ".join(in_tr), out_trl=" ".join(out_tr))
+
+
 def get_graph_from_petri_net(net):
     g = nx.DiGraph()
     g.add_nodes_from([(t.name, {"id": t.name, "type": "transition", "label": t.label})
