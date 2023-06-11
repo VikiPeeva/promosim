@@ -6,10 +6,12 @@ from promosim.utils.lpms import get_graph_from_petri_net
 import networkx as nx
 
 
-def ged_distance(net1: PetriNet, net2: PetriNet, include_nodes=True, include_edges=True):
+def ged_distance(net1: PetriNet, net2: PetriNet, include_nodes=True, include_edges=True, timeout=None):
     g1 = get_graph_from_petri_net(net1)
     g2 = get_graph_from_petri_net(net2)
-    return ged_distance_graphs(g1, g2, include_nodes, include_edges)
+    graph_dist = ged_distance_graphs(g1, g2, include_nodes, include_edges, timeout=timeout)
+    return graph_dist / (ged_distance_graphs(g1, nx.empty_graph(), include_nodes, include_edges, timeout=timeout) +
+                         ged_distance_graphs(g2, nx.empty_graph(), include_nodes, include_edges, timeout=timeout))
 
 
 def ged_distance_graphs(g1: nx.DiGraph, g2: nx.DiGraph, include_nodes=True, include_edges=True,
