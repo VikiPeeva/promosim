@@ -5,17 +5,22 @@ from pm4py.objects.log.obj import EventLog
 from pm4py.objects.petri_net.obj import PetriNet, Marking
 
 
-def playout_traces_as_strings(net, im, fm):
+def playout_traces_as_strings(net, im, fm, transform_traces=extract_traces_as_strings):
     play_out_log = pm4py.play_out(net, im, fm,
                                   parameters={"add_only_if_fm_is_reached": True,
                                               "fm_leq_accepted": False,
                                               "maxTraceLength": 10})
-    traces = extract_traces_as_strings(play_out_log)
+    traces = transform_traces(play_out_log)
     return traces
 
 
 def extract_traces_as_strings(play_out_log):
     traces = set([''.join(t) for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
+    return traces
+
+
+def extract_traces_as_sequences(play_out_log):
+    traces = set([t for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
     return traces
 
 
@@ -30,7 +35,7 @@ def build_cost_matrix(collection1, collection2, pair_cost_func):
     return cost_matrix
 
 
-def extract_dfg_from_net(net: PetriNet, im: Marking, fm: Marking):
+def extract_efg_from_net(net: PetriNet, im: Marking, fm: Marking):
     log = pm4py.play_out((net, im, fm))
     return extract_efg_from_log(log)
 
@@ -43,5 +48,6 @@ def extract_efg_from_trace_set(traces):
     efg = set()
     for trace in traces:
         for i in range(len(trace) - 1):
-            efg.add((trace[i], trace[i+1]))
+            for j in range(i+1, len(trace)):
+                efg.add((trace[i], trace[j]))
     return efg

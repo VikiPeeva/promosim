@@ -36,10 +36,12 @@ def get_graph_from_petri_net(net):
     g = nx.DiGraph()
     g.add_nodes_from([(t.name, {"id": t.name, "type": "transition", "label": t.label})
                       for t in net.transitions])
-    g.add_nodes_from([(p.name, {"id": p.name, "in_tr": set([x.source.label for x in p.in_arcs]),
+    g.add_nodes_from([(p.name, {"id": p.name,
+                                "in_tr": set([x.source.label for x in p.in_arcs]),
                                 "out_tr": set([x.target.label for x in p.out_arcs]),
                                 "place": p,
-                                "type": "place"})
+                                "type": "place",
+                                "short_string": get_petri_net_place_short_string(p)})
                       for p in net.places])
     for arc in net.arcs:
         if isinstance(arc.source, PetriNet.Place):
