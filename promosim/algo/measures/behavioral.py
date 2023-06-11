@@ -3,9 +3,8 @@ from pm4py.objects.petri_net.obj import PetriNet, Marking
 from pm4py.objects.log.obj import EventLog
 
 from promosim.utils.lpms import limit_lpm
-from promosim.utils.utils import playout_traces_as_strings, extract_efg_from_trace_set, extract_efg_from_log
+from promosim.utils.utils import playout_traces, extract_efg_from_trace_set, extract_efg_from_log, extract_traces_as_sequences
 from promosim.utils.matching import calculate_optimal_trace_matching
-from promosim.utils.utils import extract_traces_as_sequences
 
 
 def efg_distance_nets(net1: PetriNet, net2: PetriNet):
@@ -40,7 +39,7 @@ def efg_similarity(efg1, efg2):
 def full_lang_similarity(net1: PetriNet, im1: Marking, fm1: Marking,
                          net2: PetriNet, im2: Marking, fm2: Marking,
                          transform_traces=extract_traces_as_sequences):
-    traces1 = playout_traces_as_strings(net1, im1, fm1, transform_traces=transform_traces)
-    traces2 = playout_traces_as_strings(net2, im2, fm2, transform_traces=transform_traces)
+    traces1 = playout_traces(net1, im1, fm1, transform_traces=transform_traces)
+    traces2 = playout_traces(net2, im2, fm2, transform_traces=transform_traces)
     gain_matrix, assignment = calculate_optimal_trace_matching(traces1, traces2)
     return 2 * gain_matrix[assignment].sum() / (len(traces1) + len(traces2))

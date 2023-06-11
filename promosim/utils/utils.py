@@ -5,15 +5,6 @@ from pm4py.objects.log.obj import EventLog
 from pm4py.objects.petri_net.obj import PetriNet, Marking
 
 
-def playout_traces_as_strings(net, im, fm, transform_traces=extract_traces_as_strings):
-    play_out_log = pm4py.play_out(net, im, fm,
-                                  parameters={"add_only_if_fm_is_reached": True,
-                                              "fm_leq_accepted": False,
-                                              "maxTraceLength": 10})
-    traces = transform_traces(play_out_log)
-    return traces
-
-
 def extract_traces_as_strings(play_out_log):
     traces = set([''.join(t) for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
     return traces
@@ -21,6 +12,15 @@ def extract_traces_as_strings(play_out_log):
 
 def extract_traces_as_sequences(play_out_log):
     traces = set([t for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
+    return traces
+
+
+def playout_traces(net, im, fm, transform_traces=extract_traces_as_sequences):
+    play_out_log = pm4py.play_out(net, im, fm,
+                                  parameters={"add_only_if_fm_is_reached": True,
+                                              "fm_leq_accepted": False,
+                                              "maxTraceLength": 10})
+    traces = transform_traces(play_out_log)
     return traces
 
 
