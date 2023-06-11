@@ -11,7 +11,7 @@ def extract_traces_as_strings(play_out_log):
 
 
 def extract_traces_as_sequences(play_out_log):
-    traces = set([t for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")])
+    traces = [t for t in pm4py.project_on_event_attribute(play_out_log, "concept:name")]
     return traces
 
 
