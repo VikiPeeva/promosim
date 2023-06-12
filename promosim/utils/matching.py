@@ -3,7 +3,7 @@ from scipy.optimize import linear_sum_assignment
 from pm4py.objects.petri_net.obj import PetriNet
 
 import pylev
-from promosim.utils.utils import build_cost_matrix
+from promosim.utils.utils import build_gain_matrix
 
 
 def place_matching_gain(place1: PetriNet.Place, place2: PetriNet.Place):
@@ -21,10 +21,10 @@ def trace_matching_gain(trace1, trace2):
 
 
 def calculate_optimal_place_matching(net1: PetriNet, net2: PetriNet):
-    gain_matrix = build_cost_matrix(net1.places, net2.places, place_matching_gain)
+    gain_matrix = build_gain_matrix(net1.places, net2.places, place_matching_gain)
     return gain_matrix, linear_sum_assignment(gain_matrix, maximize=True)
 
 
 def calculate_optimal_trace_matching(traces1, traces2):
-    gain_matrix = build_cost_matrix(traces1, traces2, trace_matching_gain)
+    gain_matrix = build_gain_matrix(traces1, traces2, trace_matching_gain)
     return gain_matrix, linear_sum_assignment(gain_matrix, maximize=True)
